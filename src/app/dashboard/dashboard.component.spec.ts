@@ -1,33 +1,21 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { of } from 'rxjs';
-import { HeroSearchComponent } from '../hero-search/hero-search.component';
 import { HeroService } from '../hero.service';
 import { HEROES } from '../mock-heroes';
 import { DashboardComponent } from './dashboard.component';
 
 describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+  let component: Spectator<DashboardComponent>;
+  const createComponent = createComponentFactory(DashboardComponent);
   let heroService;
   let getHeroesSpy;
 
-  beforeEach(
-    waitForAsync(() => {
-      heroService = jasmine.createSpyObj('HeroService', ['getHeroes']);
-      getHeroesSpy = heroService.getHeroes.and.returnValue(of(HEROES));
-      TestBed.configureTestingModule({
-        declarations: [DashboardComponent, HeroSearchComponent],
-        imports: [RouterTestingModule.withRoutes([])],
-        providers: [{ provide: HeroService, useValue: heroService }],
-      }).compileComponents();
-    })
-  );
-
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    heroService = jasmine.createSpyObj('HeroService', ['getHeroes']);
+    getHeroesSpy = heroService.getHeroes.and.returnValue(of(HEROES));
+    component = createComponent({
+      providers: [{ provide: HeroService, useValue: heroService }],
+    });
   });
 
   it('should be created', () => {
@@ -35,22 +23,14 @@ describe('DashboardComponent', () => {
   });
 
   it('should display "Top Heroes" as headline', () => {
-    expect(fixture.nativeElement.querySelector('h2').textContent).toEqual(
-      'Top Heroes'
-    );
+    expect(component.query('h2').textContent).toEqual('Top Heroes');
   });
 
-  it(
-    'should call heroService',
-    waitForAsync(() => {
-      expect(getHeroesSpy.calls.any()).toBe(true);
-    })
-  );
+  it('should call heroService', () => {
+    expect(getHeroesSpy.calls.any()).toBe(true);
+  });
 
-  it(
-    'should display 4 links',
-    waitForAsync(() => {
-      expect(fixture.nativeElement.querySelectorAll('a').length).toEqual(4);
-    })
-  );
+  it('should display 4 links', () => {
+    expect(component.queryAll('a').length).toEqual(4);
+  });
 });
