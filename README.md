@@ -4,9 +4,9 @@
 
 ブランチごとに分かれています。
 
-- [オリジナル](/sengokyu/ex.angular-testing)
-- [@testing-library/angular](/sengokyu/ex.angular-testing/tree/testing-library)
-- [@ngneat/spectator](/sengokyu/ex.angular-testing/tree/spectator)
+- [オリジナル](https://github.com/sengokyu/ex.angular-testing)
+- [@testing-library/angular](https://github.com/sengokyu/ex.angular-testing/tree/testing-library)
+- [@ngneat/spectator](https://github.com/sengokyu/ex.angular-testing/tree/spectator)
 
 ## ファイル
 
